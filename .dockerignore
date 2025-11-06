@@ -1,0 +1,22 @@
+# Git
+.git
+.gitignore
+
+# VS Code
+.vscode
+.devcontainer
+
+# Node
+node_modules
+npm-debug.log
+
+# Python
+__pycache__
+*.pyc
+.pixi
+
+# Misc
+*.md
+!README.md
+.DS_Store
+*.log
