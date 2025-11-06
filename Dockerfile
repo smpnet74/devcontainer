@@ -93,6 +93,7 @@ RUN . "$NVM_DIR/nvm.sh" && npm install -g \
     '@google/gemini-cli' \
     '@qodo/command' \
     'opencode-ai' \
+    '@openai/codex' \
     || echo "Some CLI tools not available"
 
 # Clean up caches to reduce image size
