@@ -12,8 +12,31 @@ success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set
 [package]
 disabled = true
 
+# Disable container indicator since we're always in a devcontainer
+[container]
+disabled = true
+
 [pixi]
 disabled = false
 format = 'via [$symbol$environment]($style) '
 symbol = '🅿️ hello-world:'
 style = 'bold blue'
+
+# Kubernetes context display
+[kubernetes]
+format = 'on [⛵ $context \($namespace\)](dimmed green) '
+disabled = false
+
+# Detailed git status indicators
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+conflicted = '🏳'
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+untracked = '?${count}'
+stashed = '📦'
+modified = '!${count}'
+staged = '+${count}'
+renamed = '»${count}'
+deleted = '✘${count}'

@@ -70,10 +70,10 @@ RUN curl -fsSL https://pixi.sh/install.sh | sh && \
 # Setup Pixi zsh completions
 RUN mkdir -p ~/.zsh/completions && \
     ~/.pixi/bin/pixi completion --shell zsh > ~/.zsh/completions/_pixi && \
-    sed -i '/^export ZSH=/a \\\n# Add custom completions directory to fpath\nfpath=(~/.zsh/completions $fpath)' ~/.zshrc
+    sed -i '/^export ZSH=/a # Add custom completions directory to fpath\nfpath=(~/.zsh/completions $fpath)' ~/.zshrc
 
 # Enable oh-my-zsh plugins for better completions and features
-RUN sed -i 's/plugins=(git)/plugins=(git terraform aws kubectl fzf nvm npm node)/' ~/.zshrc
+RUN sed -i 's/^plugins=(git)$/plugins=(git terraform aws kubectl fzf nvm npm node python)/' ~/.zshrc
 
 # Install fzf (oh-my-zsh fzf plugin will handle sourcing)
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
