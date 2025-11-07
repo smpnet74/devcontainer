@@ -67,23 +67,24 @@ RUN curl -fsSL https://pixi.sh/install.sh | sh && \
     echo 'export PATH="$HOME/.pixi/bin:$PATH"' >> ~/.zshrc && \
     echo 'export PATH="$HOME/.pixi/bin:$PATH"' >> ~/.bashrc
 
-# Configure fzf key bindings and completion for zsh
-# Download the scripts since oh-my-zsh's fzf plugin expects them in ~/.fzf
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
-    ~/.fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
+# Setup Pixi zsh completions
+RUN mkdir -p ~/.zsh/completions && \
+    ~/.pixi/bin/pixi completion --shell zsh > ~/.zsh/completions/_pixi && \
+    sed -i '/^export ZSH=/a \\\n# Add custom completions directory to fpath\nfpath=(~/.zsh/completions $fpath)' ~/.zshrc
 
-# Source fzf after oh-my-zsh loads
-RUN echo '' >> ~/.zshrc && \
-    echo '# FZF configuration' >> ~/.zshrc && \
-    echo '[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh' >> ~/.zshrc
+# Enable oh-my-zsh plugins for better completions and features
+RUN sed -i 's/plugins=(git)/plugins=(git terraform aws kubectl fzf nvm npm node)/' ~/.zshrc
+
+# Install fzf (oh-my-zsh fzf plugin will handle sourcing)
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
+    ~/.fzf/install --bin
 
 # Install Claude Code CLI
 RUN curl -fsSL https://claude.ai/install.sh | bash || echo "Claude CLI not available"
 
-# Add NVM to shell initialization
-RUN echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc && \
-    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.zshrc && \
-    echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.zshrc && \
+# Configure NVM_DIR (oh-my-zsh nvm plugin will handle loading for zsh)
+RUN echo '# NVM configuration - NVM_DIR will be auto-detected by the nvm plugin' >> ~/.zshrc && \
+    echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc && \
     echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
