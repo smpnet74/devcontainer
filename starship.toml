@@ -22,10 +22,24 @@ format = 'via [$symbol$environment]($style) '
 symbol = '🅿️ hello-world:'
 style = 'bold blue'
 
+# AWS profile display
+[aws]
+format = 'on [⛵ $symbol$profile(\($region\))]($style) '
+symbol = ''
+style = 'bold yellow'
+disabled = false
+
+[aws.profile_aliases]
+'arn:aws:eks:us-east-2:941497602196:cluster/fargate-eks-cluster' = 'cluster/fargate-eks-cluster'
+
 # Kubernetes context display
 [kubernetes]
 format = 'on [⛵ $context \($namespace\)](dimmed green) '
 disabled = false
+
+[[kubernetes.contexts]]
+context_pattern = 'arn:aws:eks:us-east-2:941497602196:cluster/fargate-eks-cluster'
+context_alias = 'cluster/fargate-eks-cluster'
 
 # Detailed git status indicators
 [git_status]

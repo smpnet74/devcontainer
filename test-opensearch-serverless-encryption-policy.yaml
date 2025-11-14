@@ -1,0 +1,25 @@
+apiVersion: opensearchserverless.aws.upbound.io/v1beta1
+kind: SecurityPolicy
+metadata:
+  name: test-encryption-policy
+  annotations:
+    crossplane.io/external-name: test-encryption-policy
+spec:
+  forProvider:
+    region: us-east-2
+    type: encryption
+    description: Encryption policy for test OpenSearch Serverless collections
+    policy: |
+      {
+        "Rules": [
+          {
+            "ResourceType": "collection",
+            "Resource": [
+              "collection/test-collection"
+            ]
+          }
+        ],
+        "AWSOwnedKey": true
+      }
+  providerConfigRef:
+    name: default

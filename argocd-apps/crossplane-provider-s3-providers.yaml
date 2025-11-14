@@ -1,0 +1,106 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane-provider-s3-providers
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+
+  source:
+    chart: raw
+    repoURL: https://bedag.github.io/helm-charts
+    targetRevision: 2.0.0
+    helm:
+      valuesObject:
+        resources:
+          - apiVersion: pkg.crossplane.io/v1beta1
+            kind: DeploymentRuntimeConfig
+            metadata:
+              name: provider-aws-s3-config
+            spec:
+              serviceAccountTemplate:
+                metadata:
+                  annotations:
+                    eks.amazonaws.com/role-arn: arn:aws:iam::941497602196:role/fargate-eks-cluster-crossplane-s3-role
+              deploymentTemplate:
+                spec:
+                  selector:
+                    matchLabels:
+                      pkg.crossplane.io/provider: provider-aws-s3
+                  template:
+                    spec:
+                      containers:
+                        - name: package-runtime
+                          resources:
+                            limits:
+                              cpu: 500m
+                              memory: 1Gi
+                            requests:
+                              cpu: 100m
+                              memory: 512Mi
+          - apiVersion: pkg.crossplane.io/v1beta1
+            kind: DeploymentRuntimeConfig
+            metadata:
+              name: provider-family-aws-config
+            spec:
+              deploymentTemplate:
+                spec:
+                  selector:
+                    matchLabels:
+                      pkg.crossplane.io/provider: upbound-provider-family-aws
+                  template:
+                    spec:
+                      containers:
+                        - name: package-runtime
+                          resources:
+                            limits:
+                              cpu: 1000m
+                              memory: 2Gi
+                            requests:
+                              cpu: 250m
+                              memory: 1Gi
+          - apiVersion: pkg.crossplane.io/v1
+            kind: Provider
+            metadata:
+              name: provider-aws-s3
+            spec:
+              package: xpkg.upbound.io/upbound/provider-aws-s3:v1.16.0
+              runtimeConfigRef:
+                name: provider-aws-s3-config
+              revisionActivationPolicy: Automatic
+              revisionHistoryLimit: 1
+          - apiVersion: pkg.crossplane.io/v1
+            kind: Provider
+            metadata:
+              name: upbound-provider-family-aws
+            spec:
+              package: xpkg.upbound.io/upbound/provider-family-aws:v2.2.0
+              runtimeConfigRef:
+                name: provider-family-aws-config
+              revisionActivationPolicy: Automatic
+              revisionHistoryLimit: 1
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane-system
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  ignoreDifferences:
+    - group: pkg.crossplane.io
+      kind: Provider
+      jsonPointers:
+        - /status

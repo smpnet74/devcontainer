@@ -1,0 +1,12 @@
+apiVersion: opensearchserverless.aws.upbound.io/v1beta1
+kind: Collection
+metadata:
+  name: test-serverless-collection
+spec:
+  forProvider:
+    region: us-east-2
+    name: test-collection
+    type: SEARCH
+    description: Test OpenSearch Serverless collection created via Crossplane
+  providerConfigRef:
+    name: default

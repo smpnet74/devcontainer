@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: goldilocks
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.fairwinds.com/stable
+    chart: goldilocks
+    targetRevision: 8.0.2
+    helm:
+      values: |
+        # Goldilocks configuration for Fargate
+        vpa:
+          enabled: false  # VPA is already installed separately
+
+        dashboard:
+          enabled: true
+          replicaCount: 1
+          service:
+            type: ClusterIP  # We'll access via port-forward or add ingress later
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: goldilocks
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

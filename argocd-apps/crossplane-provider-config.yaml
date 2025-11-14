@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane-provider-config
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+
+  source:
+    chart: raw
+    repoURL: https://bedag.github.io/helm-charts
+    targetRevision: 2.0.0
+    helm:
+      valuesObject:
+        resources:
+          - apiVersion: aws.upbound.io/v1beta1
+            kind: ProviderConfig
+            metadata:
+              name: default
+            spec:
+              credentials:
+                source: IRSA
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane-system
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  ignoreDifferences:
+    - group: aws.upbound.io
+      kind: ProviderConfig
+      jsonPointers:
+        - /status
