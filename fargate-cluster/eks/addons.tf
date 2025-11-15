@@ -1,5 +1,4 @@
 # EKS Blueprints Addons - AWS Load Balancer Controller
-# Deployed first so it can manage LoadBalancers, destroyed last so it can clean them up
 module "eks_blueprints_addons_lbc" {
   source  = "aws-ia/eks-blueprints-addons/aws"
   version = "~> 1.19"
@@ -9,16 +8,15 @@ module "eks_blueprints_addons_lbc" {
   cluster_version   = aws_eks_cluster.main.version
   oidc_provider_arn = aws_iam_openid_connect_provider.eks.arn
 
-  # Enable AWS Load Balancer Controller
   enable_aws_load_balancer_controller = true
 
   aws_load_balancer_controller = {
-    chart_version = "1.14.1"  # AWS LBC v2.14.1 (latest available)
+    chart_version = "1.14.1"
 
     set = [
       {
         name  = "vpcId"
-        value = aws_vpc.main.id
+        value = local.vpc_id
       },
       {
         name  = "tolerations[0].key"
@@ -39,16 +37,10 @@ module "eks_blueprints_addons_lbc" {
     ]
   }
 
-  depends_on = [
-    aws_eks_cluster.main,
-    aws_iam_openid_connect_provider.eks
-  ]
-
-  tags = var.tags
+  tags = local.tags
 }
 
 # EKS Blueprints Addons - ArgoCD
-# Depends on LBC so it's destroyed first (before LBC)
 module "eks_blueprints_addons_argocd" {
   source  = "aws-ia/eks-blueprints-addons/aws"
   version = "~> 1.19"
@@ -58,16 +50,14 @@ module "eks_blueprints_addons_argocd" {
   cluster_version   = aws_eks_cluster.main.version
   oidc_provider_arn = aws_iam_openid_connect_provider.eks.arn
 
-  # Enable ArgoCD
   enable_argocd = true
 
   argocd = {
     namespace        = "argocd"
     create_namespace = true
-    chart_version    = "9.1.0"  # ArgoCD v3.2.0
+    chart_version    = "9.1.0"
 
     set = [
-      # LoadBalancer configuration
       {
         name  = "server.service.type"
         value = "LoadBalancer"
@@ -86,19 +76,16 @@ module "eks_blueprints_addons_argocd" {
       },
       {
         name  = "server.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-security-groups"
-        value = aws_security_group.argocd_lb.id
+        value = local.argocd_lb_sg_id
       },
-      # Run in insecure mode (HTTP) behind LoadBalancer
       {
         name  = "configs.params.server\\.insecure"
         value = "true"
       },
-      # Enable metrics
       {
         name  = "metrics.enabled"
         value = "true"
       },
-      # Fargate tolerations for all ArgoCD components
       {
         name  = "controller.tolerations[0].key"
         value = "eks.amazonaws.com/compute-type"
@@ -214,13 +201,5 @@ module "eks_blueprints_addons_argocd" {
     ]
   }
 
-  depends_on = [
-    aws_eks_cluster.main,
-    aws_iam_openid_connect_provider.eks,
-    aws_eks_fargate_profile.applications1,
-    aws_security_group.argocd_lb,
-    module.eks_blueprints_addons_lbc  # ArgoCD depends on LBC
-  ]
-
-  tags = var.tags
+  tags = local.tags
 }

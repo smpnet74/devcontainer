@@ -8,11 +8,6 @@ output "cluster_endpoint" {
   value       = aws_eks_cluster.main.endpoint
 }
 
-output "cluster_security_group_id" {
-  description = "Security group ID attached to the EKS cluster"
-  value       = aws_security_group.eks_cluster.id
-}
-
 output "cluster_arn" {
   description = "ARN of the EKS cluster"
   value       = aws_eks_cluster.main.arn
@@ -29,24 +24,14 @@ output "cluster_name" {
   value       = aws_eks_cluster.main.name
 }
 
-output "vpc_id" {
-  description = "ID of the VPC"
-  value       = aws_vpc.main.id
+output "fargate_profile_arn" {
+  description = "ARN of the Fargate profile (wildcard for all namespaces)"
+  value       = aws_eks_fargate_profile.all_namespaces.arn
 }
 
-output "public_subnet_ids" {
-  description = "IDs of the public subnets"
-  value       = aws_subnet.public[*].id
-}
-
-output "fargate_profile_system_arn" {
-  description = "ARN of the system Fargate profile"
-  value       = aws_eks_fargate_profile.system.arn
-}
-
-output "fargate_profile_applications1_arn" {
-  description = "ARN of the applications1 Fargate profile"
-  value       = aws_eks_fargate_profile.applications1.arn
+output "oidc_provider_arn" {
+  description = "ARN of the OIDC provider"
+  value       = aws_iam_openid_connect_provider.eks.arn
 }
 
 output "configure_kubectl" {

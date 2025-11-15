@@ -1,6 +1,6 @@
 # IAM Policy for Crossplane S3 Provider
 resource "aws_iam_policy" "crossplane_s3" {
-  name        = "${var.cluster_name}-crossplane-s3-policy"
+  name        = "${local.cluster_name}-crossplane-s3-policy"
   description = "IAM policy for Crossplane S3 provider"
 
   policy = jsonencode({
@@ -16,12 +16,12 @@ resource "aws_iam_policy" "crossplane_s3" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # IAM Role for Crossplane S3 Provider (using IRSA)
 resource "aws_iam_role" "crossplane_s3" {
-  name = "${var.cluster_name}-crossplane-s3-role"
+  name = "${local.cluster_name}-crossplane-s3-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -44,7 +44,7 @@ resource "aws_iam_role" "crossplane_s3" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # Attach policy to role
@@ -61,7 +61,7 @@ output "crossplane_s3_role_arn" {
 
 # IAM Policy for Crossplane Keyspaces Provider
 resource "aws_iam_policy" "crossplane_keyspaces" {
-  name        = "${var.cluster_name}-crossplane-keyspaces-policy"
+  name        = "${local.cluster_name}-crossplane-keyspaces-policy"
   description = "IAM policy for Crossplane Keyspaces provider"
 
   policy = jsonencode({
@@ -77,12 +77,12 @@ resource "aws_iam_policy" "crossplane_keyspaces" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # IAM Role for Crossplane Keyspaces Provider (using IRSA)
 resource "aws_iam_role" "crossplane_keyspaces" {
-  name = "${var.cluster_name}-crossplane-keyspaces-role"
+  name = "${local.cluster_name}-crossplane-keyspaces-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -105,7 +105,7 @@ resource "aws_iam_role" "crossplane_keyspaces" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # Attach policy to role
@@ -122,7 +122,7 @@ output "crossplane_keyspaces_role_arn" {
 
 # IAM Policy for Crossplane OpenSearch Provider
 resource "aws_iam_policy" "crossplane_opensearch" {
-  name        = "${var.cluster_name}-crossplane-opensearch-policy"
+  name        = "${local.cluster_name}-crossplane-opensearch-policy"
   description = "IAM policy for Crossplane OpenSearch provider"
 
   policy = jsonencode({
@@ -138,12 +138,12 @@ resource "aws_iam_policy" "crossplane_opensearch" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # IAM Role for Crossplane OpenSearch Provider (using IRSA)
 resource "aws_iam_role" "crossplane_opensearch" {
-  name = "${var.cluster_name}-crossplane-opensearch-role"
+  name = "${local.cluster_name}-crossplane-opensearch-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -166,7 +166,7 @@ resource "aws_iam_role" "crossplane_opensearch" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # Attach policy to role
@@ -183,7 +183,7 @@ output "crossplane_opensearch_role_arn" {
 
 # IAM Policy for Crossplane OpenSearch Serverless Provider
 resource "aws_iam_policy" "crossplane_opensearchserverless" {
-  name        = "${var.cluster_name}-crossplane-opensearchserverless-policy"
+  name        = "${local.cluster_name}-crossplane-opensearchserverless-policy"
   description = "IAM policy for Crossplane OpenSearch Serverless provider"
 
   policy = jsonencode({
@@ -199,12 +199,12 @@ resource "aws_iam_policy" "crossplane_opensearchserverless" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # IAM Role for Crossplane OpenSearch Serverless Provider (using IRSA)
 resource "aws_iam_role" "crossplane_opensearchserverless" {
-  name = "${var.cluster_name}-crossplane-opensearchserverless-role"
+  name = "${local.cluster_name}-crossplane-opensearchserverless-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -227,7 +227,7 @@ resource "aws_iam_role" "crossplane_opensearchserverless" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # Attach policy to role
@@ -244,7 +244,7 @@ output "crossplane_opensearchserverless_role_arn" {
 
 # IAM Policy for Crossplane IAM Provider
 resource "aws_iam_policy" "crossplane_iam" {
-  name        = "${var.cluster_name}-crossplane-iam-policy"
+  name        = "${local.cluster_name}-crossplane-iam-policy"
   description = "IAM policy for Crossplane IAM provider"
 
   policy = jsonencode({
@@ -260,12 +260,12 @@ resource "aws_iam_policy" "crossplane_iam" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # IAM Role for Crossplane IAM Provider (using IRSA)
 resource "aws_iam_role" "crossplane_iam" {
-  name = "${var.cluster_name}-crossplane-iam-role"
+  name = "${local.cluster_name}-crossplane-iam-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -288,7 +288,7 @@ resource "aws_iam_role" "crossplane_iam" {
     ]
   })
 
-  tags = var.tags
+  tags = local.tags
 }
 
 # Attach policy to role

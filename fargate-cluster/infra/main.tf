@@ -6,55 +6,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "~> 2.0"
-    }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.0"
-    }
   }
 }
 
 provider "aws" {
   region = var.aws_region
-}
-
-provider "helm" {
-  kubernetes {
-    host                   = aws_eks_cluster.main.endpoint
-    cluster_ca_certificate = base64decode(aws_eks_cluster.main.certificate_authority[0].data)
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      command     = "aws"
-      args = [
-        "eks",
-        "get-token",
-        "--cluster-name",
-        aws_eks_cluster.main.name,
-        "--region",
-        var.aws_region
-      ]
-    }
-  }
-}
-
-provider "kubernetes" {
-  host                   = aws_eks_cluster.main.endpoint
-  cluster_ca_certificate = base64decode(aws_eks_cluster.main.certificate_authority[0].data)
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    command     = "aws"
-    args = [
-      "eks",
-      "get-token",
-      "--cluster-name",
-      aws_eks_cluster.main.name,
-      "--region",
-      var.aws_region
-    ]
-  }
 }
 
 # Data source for availability zones
@@ -143,8 +99,6 @@ resource "aws_eip" "nat" {
       Name = "${var.cluster_name}-nat-eip"
     }
   )
-
-  depends_on = [aws_internet_gateway.main]
 }
 
 # NAT Gateway (single for cost savings in test environment)
@@ -158,8 +112,6 @@ resource "aws_nat_gateway" "main" {
       Name = "${var.cluster_name}-nat-gw"
     }
   )
-
-  depends_on = [aws_internet_gateway.main]
 }
 
 # Private Subnets (one per AZ)
