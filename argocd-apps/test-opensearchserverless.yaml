@@ -1,0 +1,113 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-opensearchserverless
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+
+  source:
+    chart: raw
+    repoURL: https://bedag.github.io/helm-charts
+    targetRevision: 2.0.0
+    helm:
+      valuesObject:
+        resources:
+          # OpenSearch Serverless Encryption Policy
+          - apiVersion: opensearchserverless.aws.upbound.io/v1beta1
+            kind: SecurityPolicy
+            metadata:
+              name: test-encryption-policy
+              annotations:
+                crossplane.io/external-name: test-encryption-policy
+            spec:
+              forProvider:
+                region: us-east-2
+                type: encryption
+                description: Encryption policy for test OpenSearch Serverless collection
+                policy: |
+                  {
+                    "Rules": [
+                      {
+                        "ResourceType": "collection",
+                        "Resource": [
+                          "collection/test-collection"
+                        ]
+                      }
+                    ],
+                    "AWSOwnedKey": true
+                  }
+              providerConfigRef:
+                name: default
+
+          # OpenSearch Serverless Network Policy
+          - apiVersion: opensearchserverless.aws.upbound.io/v1beta1
+            kind: SecurityPolicy
+            metadata:
+              name: test-network-policy
+              annotations:
+                crossplane.io/external-name: test-network-policy
+            spec:
+              forProvider:
+                region: us-east-2
+                type: network
+                description: Network policy for test OpenSearch Serverless collection
+                policy: |
+                  [
+                    {
+                      "Rules": [
+                        {
+                          "ResourceType": "collection",
+                          "Resource": [
+                            "collection/test-collection"
+                          ]
+                        }
+                      ],
+                      "AllowFromPublic": true
+                    }
+                  ]
+              providerConfigRef:
+                name: default
+
+          # OpenSearch Serverless Collection
+          - apiVersion: opensearchserverless.aws.upbound.io/v1beta1
+            kind: Collection
+            metadata:
+              name: test-collection
+            spec:
+              forProvider:
+                region: us-east-2
+                name: test-collection
+                type: SEARCH
+                description: Test OpenSearch Serverless collection
+              providerConfigRef:
+                name: default
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane-system
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  ignoreDifferences:
+    - group: opensearchserverless.aws.upbound.io
+      kind: SecurityPolicy
+      jsonPointers:
+        - /status
+    - group: opensearchserverless.aws.upbound.io
+      kind: Collection
+      jsonPointers:
+        - /status

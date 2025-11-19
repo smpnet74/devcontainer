@@ -149,15 +149,15 @@ spec:
                       {
                         "Effect": "Allow",
                         "Principal": {
-                          "Federated": "arn:aws:iam::941497602196:oidc-provider/oidc.eks.us-east-2.amazonaws.com/id/FA5A5E51B51E4F35C68EE766903754FD"
+                          "Federated": "arn:aws:iam::941497602196:oidc-provider/oidc.eks.us-east-2.amazonaws.com/id/789C3219F52C84D9EBE9A9A29310CCA7"
                         },
                         "Action": "sts:AssumeRoleWithWebIdentity",
                         "Condition": {
                           "StringEquals": {
-                            "oidc.eks.us-east-2.amazonaws.com/id/FA5A5E51B51E4F35C68EE766903754FD:aud": "sts.amazonaws.com"
+                            "oidc.eks.us-east-2.amazonaws.com/id/789C3219F52C84D9EBE9A9A29310CCA7:aud": "sts.amazonaws.com"
                           },
                           "StringLike": {
-                            "oidc.eks.us-east-2.amazonaws.com/id/FA5A5E51B51E4F35C68EE766903754FD:sub": "system:serviceaccount:temporal:*"
+                            "oidc.eks.us-east-2.amazonaws.com/id/789C3219F52C84D9EBE9A9A29310CCA7:sub": "system:serviceaccount:temporal:*"
                           }
                         }
                       }

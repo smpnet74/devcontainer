@@ -15,6 +15,29 @@ spec:
     helm:
       valuesObject:
         resources:
+          # Default DeploymentRuntimeConfig for providers
+          # Sets resource limits for provider pods (especially upbound-provider-family-aws)
+          - apiVersion: pkg.crossplane.io/v1beta1
+            kind: DeploymentRuntimeConfig
+            metadata:
+              name: default
+            spec:
+              deploymentTemplate:
+                spec:
+                  selector: {}
+                  template:
+                    spec:
+                      containers:
+                        - name: package-runtime
+                          resources:
+                            limits:
+                              cpu: 1000m
+                              memory: 2Gi
+                            requests:
+                              cpu: 200m
+                              memory: 1Gi
+
+          # AWS ProviderConfig for all AWS providers
           - apiVersion: aws.upbound.io/v1beta1
             kind: ProviderConfig
             metadata:
@@ -41,6 +64,10 @@ spec:
         maxDuration: 3m
 
   ignoreDifferences:
+    - group: pkg.crossplane.io
+      kind: DeploymentRuntimeConfig
+      jsonPointers:
+        - /status
     - group: aws.upbound.io
       kind: ProviderConfig
       jsonPointers:
