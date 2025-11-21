@@ -67,6 +67,11 @@ RUN curl -fsSL https://pixi.sh/install.sh | sh && \
     echo 'export PATH="$HOME/.pixi/bin:$PATH"' >> ~/.zshrc && \
     echo 'export PATH="$HOME/.pixi/bin:$PATH"' >> ~/.bashrc
 
+# Install Qoder CLI (installer autodetects OS/arch)
+RUN curl -fsSL https://qoder.com/install | bash && \
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && \
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+
 # Setup Pixi zsh completions
 RUN mkdir -p ~/.zsh/completions && \
     ~/.pixi/bin/pixi completion --shell zsh > ~/.zsh/completions/_pixi && \
