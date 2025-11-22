@@ -16,6 +16,8 @@ RUN apt-get update && \
     software-properties-common \
     wget \
     lsb-release \
+    fuse \
+    libfuse2t64 \
     && wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list \
     && apt-get update \
@@ -43,6 +45,16 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${KUBECTL_ARCH}/kubectl" && \
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
     rm kubectl
+
+# Install Mountpoint for Amazon S3 (multi-arch)
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        MOUNT_S3_ARCH="arm64"; \
+    else \
+        MOUNT_S3_ARCH="x86_64"; \
+    fi && \
+    wget "https://s3.amazonaws.com/mountpoint-s3-release/latest/${MOUNT_S3_ARCH}/mount-s3.deb" && \
+    dpkg -i mount-s3.deb && \
+    rm mount-s3.deb
 
 # Switch to vscode user for tool installations
 USER vscode

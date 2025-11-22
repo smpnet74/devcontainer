@@ -3,7 +3,12 @@
 {
 	"name": "Ubuntu",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "smpnet74/devcontainer:latest",
+	"image": "smpnet74/devcontainer:v7",
+	
+	// Enable GPU access for Mac
+	"hostRequirements": {
+		"gpu": true
+	},
 	
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -17,9 +22,6 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "uname -a",
 
 	// Configure tool-specific properties.
 	"customizations": {
