@@ -1,0 +1,35 @@
+[workspace]
+authors = ["Scott Peterson <sm_peterson@yahoo.com>"]
+channels = ["conda-forge"]
+name = "python-env"
+platforms = ["linux-aarch64"]
+version = "0.1.0"
+
+[tasks]
+# Install AI CLI tools via npm
+setup-ai-tools = """
+npm install -g \
+  @google/gemini-cli \
+  @qodo/command \
+  opencode-ai \
+  @openai/codex
+"""
+
+# Complete setup - installs all dependencies and AI tools
+setup = { depends_on = ["setup-ai-tools"] }
+
+# Verify installation
+check = """
+echo "=== Checking installations ===" && \
+node --version && \
+npm --version && \
+echo "AI CLI tools:" && \
+command -v gemini-cli qodo opencode codex 2>&1 || echo "Some tools may not be installed yet"
+"""
+
+[dependencies]
+python = "3.13.*"
+nodejs = "22.*"
+
+[pypi-dependencies]
+modal = ">=1.2.4, <2"

@@ -10,6 +10,7 @@ RUN apt-get update && \
     ca-certificates \
     git \
     ripgrep \
+    libxcb1 \
     iputils-ping \
     unzip \
     gnupg \
@@ -60,14 +61,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
 USER vscode
 WORKDIR /home/vscode
 
-# Install NVM and Node.js LTS
-ENV NVM_DIR=/home/vscode/.nvm
-RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash && \
-    . "$NVM_DIR/nvm.sh" && \
-    nvm install --lts && \
-    nvm use --lts && \
-    nvm alias default 'lts/*' && \
-    npm cache clean --force
+# Node.js and npm tools are now managed via Pixi - see pixi.toml
 
 # Install Starship prompt
 RUN curl -sS https://starship.rs/install.sh | sh -s -- -y && \
@@ -90,7 +84,7 @@ RUN mkdir -p ~/.zsh/completions && \
     sed -i '/^export ZSH=/a # Add custom completions directory to fpath\nfpath=(~/.zsh/completions $fpath)' ~/.zshrc
 
 # Enable oh-my-zsh plugins for better completions and features
-RUN sed -i 's/^plugins=(git)$/plugins=(git terraform aws kubectl fzf nvm npm node python)/' ~/.zshrc
+RUN sed -i 's/^plugins=(git)$/plugins=(git terraform aws kubectl fzf python)/' ~/.zshrc
 
 # Install fzf (oh-my-zsh fzf plugin will handle sourcing)
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
@@ -99,25 +93,7 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
 # Install Claude Code CLI
 RUN curl -fsSL https://claude.ai/install.sh | bash || echo "Claude CLI not available"
 
-# Configure NVM_DIR (oh-my-zsh nvm plugin will handle loading for zsh)
-RUN echo '# NVM configuration - NVM_DIR will be auto-detected by the nvm plugin' >> ~/.zshrc && \
-    echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc && \
-    echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
-    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc && \
-    echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
-
-# Install CLI tools via npm
-RUN . "$NVM_DIR/nvm.sh" && npm install -g \
-    '@google/gemini-cli' \
-    '@qodo/command' \
-    'opencode-ai' \
-    '@openai/codex' \
-    || echo "Some CLI tools not available"
-
-# Clean up caches to reduce image size
-RUN rm -rf ~/.cache/* && \
-    rm -rf ~/.npm/_cacache && \
-    . "$NVM_DIR/nvm.sh" && npm cache clean --force || true
+# npm CLI tools now managed via Pixi - run 'pixi run setup-ai-tools' after container starts
 
 # Switch back to root for any final system configurations
 USER root
