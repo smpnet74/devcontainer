@@ -6,6 +6,13 @@ platforms = ["linux-aarch64"]
 version = "0.1.0"
 
 [tasks]
+# Install Qoder CLI
+setup-qoder = """
+curl -fsSL https://qoder.com/install | bash && \
+echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.zshrc && \
+echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.bashrc
+"""
+
 # Install AI CLI tools via npm
 setup-ai-tools = """
 npm install -g \
@@ -16,7 +23,7 @@ npm install -g \
 """
 
 # Complete setup - installs all dependencies and AI tools
-setup = { depends_on = ["setup-ai-tools"] }
+setup = { depends-on = ["setup-qoder", "setup-ai-tools"] }
 
 # Verify installation
 check = """
@@ -24,7 +31,7 @@ echo "=== Checking installations ===" && \
 node --version && \
 npm --version && \
 echo "AI CLI tools:" && \
-command -v gemini-cli qodo opencode codex 2>&1 || echo "Some tools may not be installed yet"
+command -v gemini-cli qodo opencode codex qoder 2>&1 || echo "Some tools may not be installed yet"
 """
 
 [dependencies]
