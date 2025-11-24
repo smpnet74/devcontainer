@@ -9,6 +9,7 @@ RUN apt-get update && \
     curl \
     ca-certificates \
     git \
+    gh \
     ripgrep \
     libxcb1 \
     iputils-ping \

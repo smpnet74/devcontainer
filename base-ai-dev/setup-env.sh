@@ -31,9 +31,9 @@ echo ""
 echo "✓ Pixi dependencies installed"
 echo ""
 
-# Install AI CLI tools
-echo "🤖 Installing AI CLI tools (gemini-cli, qodo, opencode, codex)..."
-pixi run setup-ai-tools
+# Install AI CLI tools and Qoder
+echo "🤖 Installing AI CLI tools (gemini-cli, qodo, opencode, codex, qoder, goose)..."
+pixi run setup
 
 echo ""
 echo "✓ AI CLI tools installed"

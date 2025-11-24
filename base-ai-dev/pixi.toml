@@ -22,8 +22,13 @@ npm install -g \
   @openai/codex
 """
 
+# Install Goose CLI
+setup-goose = """
+curl -fsSL https://github.com/block/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+"""
+
 # Complete setup - installs all dependencies and AI tools
-setup = { depends-on = ["setup-qoder", "setup-ai-tools"] }
+setup = { depends-on = ["setup-qoder", "setup-ai-tools", "setup-goose"] }
 
 # Verify installation
 check = """
@@ -31,7 +36,7 @@ echo "=== Checking installations ===" && \
 node --version && \
 npm --version && \
 echo "AI CLI tools:" && \
-command -v gemini-cli qodo opencode codex qoder 2>&1 || echo "Some tools may not be installed yet"
+command -v gemini-cli qodo opencode codex qoder goose 2>&1 || echo "Some tools may not be installed yet"
 """
 
 [dependencies]

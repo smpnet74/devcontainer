@@ -2,3 +2,4 @@
 .terraform.lock.hcl
 terraform.tfstate*
 base-ai-dev-test
+shield
