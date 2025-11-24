@@ -1,16 +1,16 @@
 [workspace]
 authors = ["Scott Peterson <sm_peterson@yahoo.com>"]
 channels = ["conda-forge"]
-name = "python-env"
+name = "ai-dev"
 platforms = ["linux-aarch64"]
 version = "0.1.0"
 
 [tasks]
 # Install Qoder CLI
 setup-qoder = """
-curl -fsSL https://qoder.com/install | bash && \
-echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.zshrc && \
-echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.bashrc
+(curl -fsSL https://qoder.com/install | bash || echo 'Qoder install failed or already installed') && \
+(grep -q '$HOME/.local/bin' ~/.zshrc || echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.zshrc) && \
+(grep -q '$HOME/.local/bin' ~/.bashrc || echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.bashrc)
 """
 
 # Install AI CLI tools via npm
@@ -24,7 +24,7 @@ npm install -g \
 
 # Install Goose CLI
 setup-goose = """
-curl -fsSL https://github.com/block/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+curl -fsSL https://github.com/block/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash || echo 'Goose install failed or already installed'
 """
 
 # Complete setup - installs all dependencies and AI tools

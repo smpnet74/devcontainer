@@ -18,8 +18,8 @@ disabled = true
 
 [pixi]
 disabled = false
-format = 'via [$symbol$environment]($style) '
-symbol = '🅿️ hello-world:'
+format = 'via [$symbol:$environment]($style) '
+symbol = 'pixi'
 style = 'bold blue'
 
 # AWS profile display
