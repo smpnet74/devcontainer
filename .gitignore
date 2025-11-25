@@ -1,7 +1,2 @@
-.terraform
-.terraform.lock.hcl
-terraform.tfstate*
-base-ai-dev-test
 base-ai-dev/
-shield/
-shield
+ai-kube-aws/

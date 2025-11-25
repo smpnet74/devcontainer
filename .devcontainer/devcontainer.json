@@ -36,9 +36,11 @@
 				}
 			},
 			"extensions": [
-				"hashicorp.terraform",
 				"ms-python.python",
-				"mermaidchart.vscode-mermaid-chart"
+				"mermaidchart.vscode-mermaid-chart",
+				"augment.vscode-augment",
+				"zencoderai.zencoder",
+				"kilocode.kilo-code"
 			]
 		}
 	}
