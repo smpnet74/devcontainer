@@ -37,10 +37,7 @@
 			},
 			"extensions": [
 				"ms-python.python",
-				"mermaidchart.vscode-mermaid-chart",
-				"augment.vscode-augment",
-				"zencoderai.zencoder",
-				"kilocode.kilo-code"
+				"mermaidchart.vscode-mermaid-chart"
 			]
 		}
 	}
