@@ -3,7 +3,7 @@
 {
 	"name": "Ubuntu",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "smpnet74/devcontainer:v9",
+	"image": "smpnet74/devcontainer:v20251127_1751",
 	
 	// Enable GPU access for Mac
 	"hostRequirements": {
@@ -22,6 +22,9 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
+
+	// Install aimenu binary on container startup
+	"postCreateCommand": "bash -c 'INSTALL_DIR=/workspaces/devcontainer curl -fsSL https://raw.githubusercontent.com/smpnet74/ai-menu/main/scripts/install.sh | bash'",
 
 	// Configure tool-specific properties.
 	"customizations": {
