@@ -22,6 +22,7 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     -t ${IMAGE_NAME}:${VERSION} \
     -t ${IMAGE_NAME}:latest \
+    -f Dockerfile \
     --push \
     .
 
@@ -32,3 +33,4 @@ echo ""
 echo "🌍 Available on both architectures:"
 echo "   - linux/amd64 (Intel/AMD)"
 echo "   - linux/arm64 (Apple Silicon)"
+

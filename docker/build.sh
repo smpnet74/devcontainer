@@ -11,6 +11,7 @@ echo "🔨 Building local image: ${IMAGE_NAME}:${VERSION}"
 docker build \
     -t ${IMAGE_NAME}:${VERSION} \
     -t ${IMAGE_NAME}:latest \
+    -f Dockerfile \
     .
 
 echo "✅ Successfully built locally:"
@@ -22,3 +23,4 @@ echo "   \"image\": \"${IMAGE_NAME}:${VERSION}\""
 echo ""
 echo "🧪 Test it with your devcontainer, then run:"
 echo "   ./push.sh ${VERSION}"
+
