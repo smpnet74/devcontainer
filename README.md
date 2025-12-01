@@ -1,6 +1,6 @@
 # Scott's AI World DevContainer
 
-A fully-featured development container pre-configured with Pixi and Starship, two of my favorite tools.  Additional the devcontainer downloads the latest release of ./aimenu, a CLI tool I created to install AI tools, development utilities, and convenient shell binaries to enhance your development experience with AI-assisted coding.
+A fully-featured development container pre-configured with Pixi and Starship, two of my favorite tools. Additionally, the devcontainer downloads the latest release of ./aimenu, a CLI tool I created to install AI tools, development utilities, and convenient shell binaries to enhance your development experience with AI-assisted coding.
 
 ## Getting Started
 
@@ -65,14 +65,17 @@ Once inside the devcontainer, simply run:
 ./aimenu
 ```
 
-This launches an interactive menu where you can select and install:
+This launches an interactive menu where you can select and install various tools:
 
 ### Available CLI Tools
 
 - **Amp by Sourcegraph** - AI-powered code assistance
+- **Auggie by Augment Code** - Augment Code's CLI tool for AI-assisted development
 - **Codex by OpenAI** - OpenAI's code generation tool
 - **Droid by Factory AI** - Factory AI coding assistant
+- **Forgecode** - AI-powered code generation and refactoring tool
 - **Gemini CLI by Google** - Google's Gemini AI tool
+- **Goose** - AI agent for autonomous coding tasks
 - **Kimi by MoonshotAI** - MoonshotAI's Kimi CLI
 - **Kiro CLI by AWS** - AWS's Kiro CLI tool
 - **OpenCode CLI** - OpenCode code assistant
@@ -103,6 +106,15 @@ These are tools commonly used in prompts to aid AI CLI tools and are used by var
 - **ripgrep** - Fast search tool (rg)
 - **yq** - YAML processor
 
+### Available CLI Tool Enhancers
+
+These are tools that enhance and extend the functionality of your CLI tools:
+
+- **Claude Flow by ruvnet** - Advanced workflow orchestration tool for AI-powered CLI applications
+  - Provides workflow automation and task orchestration capabilities
+  - Integrates with Claude AI for intelligent workflow execution
+  - Enables complex multi-step AI-assisted workflows
+
 All selected tools are installed in a dedicated pixi environment (`ai-dev-pixi`) which keeps dependencies isolated and organized.
 
 ## Working with VS Code and GitHub
@@ -119,9 +131,6 @@ The workspace configuration allows you to:
 - Access the GitHub icon in VS Code for repository management
 - Work across multiple projects simultaneously
 - Maintain consistent development environment settings
-
-
-
 
 ## Quick Start
 
