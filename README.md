@@ -26,6 +26,48 @@ A fully-featured development container pre-configured with Pixi and Starship, tw
 3. **You're Ready!**
    - Once the container is running, you can start using aimenu to install all the various AI development tools.
 
+## Multiple Devcontainer Instances
+
+This repository supports running **two separate devcontainer instances** simultaneously on the same filesystem. This is useful when you want to experiment with different AI coding tools or configurations without affecting your primary development environment.
+
+### Available Workspaces
+
+- **workspace-a.code-workspace** (Instance A) - Primary development environment
+  - Use this for your main development work
+  - Recommended for most day-to-day coding tasks
+
+- **workspace-b.code-workspace** (Instance B) - Secondary environment
+  - Use this when you want to run multiple AI coding tool configurations
+  - Perfect for experimenting with different "vibe coding" tools simultaneously
+  - Allows you to test tools or settings without disrupting your main workspace
+
+### How to Use Multiple Instances
+
+1. **Open First Instance**:
+   - In VS Code, open `workspace-a.code-workspace`
+   - This will create a devcontainer named "Ubuntu-A"
+
+2. **Open Second Instance** (in a new VS Code window):
+   - Open a new VS Code window (File → New Window)
+   - Open `workspace-b.code-workspace`
+   - This will create a separate devcontainer named "Ubuntu-B"
+
+3. **Work Independently**:
+   - Both containers access the same files in `/workspaces/devcontainer`
+   - Each has its own terminal sessions and running processes
+   - Changes to files are immediately visible in both instances
+
+### Configuration Details
+
+The devcontainer configurations are located at:
+- `.devcontainer/instance-a/devcontainer.json` (Ubuntu-A)
+- `.devcontainer/instance-b/devcontainer.json` (Ubuntu-B)
+
+Both configurations share the same base setup but run as independent containers, allowing you to:
+- Run different AI coding tools in each instance
+- Test different VSCode extension configurations
+- Maintain separate terminal sessions and processes
+
 ## What's Included
 
 ### Dockerfile Installation
@@ -124,13 +166,16 @@ All selected tools are installed in a dedicated pixi environment (`ai-dev-pixi`)
 Once you're inside the devcontainer, you can work with all projects through VS Code:
 
 1. In VS Code, use **File → Open Workspace from File**
-2. Navigate to and select `devcontainer.code-workspace`
-3. This loads the entire workspace with GitHub integration enabled
+2. Navigate to and select either:
+   - `workspace-a.code-workspace` (recommended for most work)
+   - `workspace-b.code-workspace` (for secondary instance)
+3. This loads the workspace with GitHub integration enabled
 
 The workspace configuration allows you to:
 - Access the GitHub icon in VS Code for repository management
 - Work across multiple projects simultaneously
 - Maintain consistent development environment settings
+- Run multiple independent devcontainer instances when needed
 
 ## Quick Start
 

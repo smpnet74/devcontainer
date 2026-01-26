@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "Instance A"
+    }
+  ],
+  "settings": {
+    "git.detectSubmodules": false,
+    "dev.containers.configFilePath": ".devcontainer/instance-a/devcontainer.json"
+  }
+}

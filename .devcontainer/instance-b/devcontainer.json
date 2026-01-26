@@ -1,18 +1,25 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
 {
-	"name": "Ubuntu",
+	"name": "Ubuntu-B",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "smpnet74/devcontainer:v20251127_1751",
-	
+
+	// Allow access to other containers on the Docker host via host.docker.internal
+	// Connect to agt-network to access all agt-* services
+	"runArgs": [
+		"--add-host=host.docker.internal:host-gateway",
+		"--network=agt-network"
+	],
+
 	// Enable GPU access for Mac
 	"hostRequirements": {
 		"gpu": true
 	},
-	
+
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
-	
+
 	// Default shell is already set to zsh in the Dockerfile
 
 	// Set environment variables for the container

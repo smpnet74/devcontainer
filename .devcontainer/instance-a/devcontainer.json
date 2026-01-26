@@ -1,0 +1,57 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "Ubuntu-A",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "smpnet74/devcontainer:v20251127_1751",
+
+	// Allow access to other containers on the Docker host via host.docker.internal
+	// Connect to agt-network to access all agt-* services
+	"runArgs": [
+		"--add-host=host.docker.internal:host-gateway",
+		"--network=agt-network"
+	],
+
+	// Enable GPU access for Mac
+	"hostRequirements": {
+		"gpu": true
+	},
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Default shell is already set to zsh in the Dockerfile
+
+	// Set environment variables for the container
+	"remoteEnv": {
+		"STARSHIP_CONFIG": "/workspaces/devcontainer/starship.toml"
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Install aimenu binary on container startup
+	"postCreateCommand": "bash -c 'INSTALL_DIR=/workspaces/devcontainer curl -fsSL https://raw.githubusercontent.com/smpnet74/ai-menu/main/scripts/install.sh | bash'",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh",
+				"terminal.integrated.profiles.linux": {
+					"zsh": {
+						"path": "/usr/bin/zsh",
+						"args": ["-l"]
+					}
+				}
+			},
+			"extensions": [
+				"ms-python.python",
+				"mermaidchart.vscode-mermaid-chart"
+			]
+		}
+	}
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}

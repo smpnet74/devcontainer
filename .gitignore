@@ -2,4 +2,16 @@ base-ai-dev/
 ai-kube-aws/
 ai-menu/
 ai-dev-pixi/
-newproj/
+strategy-forge-agt/
+aimenu
+
+# AI Coding Assistant directories
+.claude/
+.cursor/
+.codeium/
+.copilot/
+.aider/
+.continue/
+.windsurf/
+.zencode/
+.zenflow/
