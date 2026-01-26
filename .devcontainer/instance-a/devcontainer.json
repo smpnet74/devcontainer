@@ -3,7 +3,7 @@
 {
 	"name": "Ubuntu-A",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "smpnet74/devcontainer:v20251127_1751",
+	"image": "smpnet74/devcontainer:v20260126_1630",
 
 	// Allow access to other containers on the Docker host via host.docker.internal
 	// Connect to agt-network to access all agt-* services
