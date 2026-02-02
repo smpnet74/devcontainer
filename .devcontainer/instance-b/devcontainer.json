@@ -28,10 +28,11 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	// Port 18789: Clawdbot gateway WebSocket and dashboard
+	// "forwardPorts": [18789],
 
 	// Install aimenu binary on container startup
-	"postCreateCommand": "bash -c 'INSTALL_DIR=/workspaces/devcontainer curl -fsSL https://raw.githubusercontent.com/smpnet74/ai-menu/main/scripts/install.sh | bash'",
+	// "postCreateCommand": "bash -c 'INSTALL_DIR=/workspaces/devcontainer curl -fsSL https://raw.githubusercontent.com/smpnet74/ai-menu/main/scripts/install.sh | bash'",
 
 	// Configure tool-specific properties.
 	"customizations": {
